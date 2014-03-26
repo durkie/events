@@ -1,0 +1,77 @@
+<div class="container">
+<div class='row'>
+<p id="notice"><%= notice %></p>
+<h1><%= @event.name %></h1>
+<h4>@ <%= @event.location %></h4>
+<hr>
+<div id="vol_message" style="display:none;"></div>
+<h3>Volunteer Check In</h3>
+
+<form role='form' id='vol_checkin_form'>
+  <input id='checkin_event' type='hidden' name='event' value="<%= @event.id %>">
+  
+  <div class='form-group'>
+    <label for='checkin_email'>Your Email Address</label>
+    <input id='checkin_email' class='form-control' name='email' type='email'>
+  </div>
+
+  <div class='row'>
+    <div class='col-md-6'>
+      <div class='form-group'>
+        <label for='checkin_fname'>First Name</label>
+        <input id='checkin_fname' class='form-control' name='fname'>
+      </div>
+    </div>
+    <div class='col-md-6'>
+      <div class='form-group'>
+        <label for='checkin_lname'>Last Name</label>
+        <input id='checkin_lname' class='form-control' name='lname'>
+      </div>
+    </div>
+  </div>
+
+  <div class='row' id='vol_checkin_terms' style="display:none;">
+    <div class='col-md-8'>
+      <h4>Just to make sure we're on the same page...</h4>
+      By checking in, you agree to:
+      <ul>
+        <li>Not sue Concrete Jungle</li>
+        <li>Not do stupid things</li>
+        <li>Come back soon</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row" id="vol_checkin_ml" style="display:none;">
+    <div class='col-md-8'>
+      <label class='checkbox'>
+        <input type="checkbox" id='ml_signup_check' name="ml_signup"> Subscribe me to Concrete Jungle's mailing list too.
+      </label>
+    </div>
+  </div>
+
+  <button id='vol_checkin_btn' class="btn btn-lg btn-primary btn-block" type="submit" disabled>Check In</button>
+</form>
+
+<hr>
+
+<h3>Already Checked In</h3>
+
+<table class='table table-bordered'>
+  <tr id='header'>
+    <th>Name</th>
+    <th>Time</th>
+  </tr>
+
+  <% @checkins.reverse_each do |c| %>
+  <% vol = Volunteer.find(c.volunteer_id) %>
+  <tr>
+    <td><%= vol.first_name %> <%= vol.last_name %></td>
+    <td><%= c.created_at.strftime("%B %e, %I:%M %p") %></td>
+  </tr>
+  <% end %>
+</table>
+
+
+</div>
+</div>

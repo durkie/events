@@ -1,0 +1,51 @@
+<div class="inputholder">
+<div class="amount">
+  <label for="checkoutAmount">Donation amount ($USD, $1.00 minimum)</label>
+  <input id="checkoutAmount" type='number' min="1" max="1000" required><br/>
+<button class="stripe-button-el"><span>Donate</span></button>
+</div>
+<div class="policy">
+All data are provided for the sole purpose of authenticating the donation with our credit card gateway. No data are stored on Concrete Jungle's servers, and all credit card details (name, card number, expiration date, cvc, address) are securely transmitted directly to the credit card gateway without passing through Concrete Jungle's servers.
+</div>
+</div>
+
+
+<script>
+    $('.stripe-button-el').click(function() {
+      var token = function(res) {
+        $('.stripe-button-el').attr("disabled", "disabled");
+
+        $.post('/charge', {
+          stripeToken: res.id,
+          chargeAmount: amount,
+          chargeDesc: donationEmail,
+          },
+          function(data) {
+            $(".entry").html(data);
+          });
+       }
+
+      var donationEmail = $("#donationEmail").val();
+      var amount = Math.floor(($('#checkoutAmount').val() * 100));
+      if (amount < 100) {
+        $('#checkoutAmount').css("border-color", "#ff0000");
+        $('#checkoutAmount').css("outline", "none");
+        $('#checkoutAmount').css("-moz-box-shadow", "inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #ff0000");
+        $('#checkoutAmount').css("-webit-box-shadow", "inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #ff0000");
+        $('#checkoutAmount').css("box-shadow", "inset 0 1px 2px rgba(70,123,181,0.35), 0 0 4px #ff0000");
+        return false;
+      } else {
+        StripeCheckout.open({
+          key:         '<%= STRIPE_PUBLIC %>',
+          address:     true,
+          name:        'Concrete Jungle',
+          panelLabel:  'Checkout',
+          token:       token,
+          image:       "http://www.concrete-jungle.org/wp-content/themes/green-apples/images/cjsmall.jpg",
+        });
+
+
+        return false;
+      }
+    });
+</script>

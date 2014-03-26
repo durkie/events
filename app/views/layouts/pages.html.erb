@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donate to Concrete Jungle</title>
+  <%= stylesheet_link_tag "http://www.concrete-jungle.org/wp-content/themes/green-apples/bootstrap-3/css/bootstrap.css" %>
+  <%= stylesheet_link_tag "http://www.concrete-jungle.org/wp-content/themes/green-apples/newstyle.css" %>
+  <%= stylesheet_link_tag "stripe" %>
+  <%= javascript_include_tag "application" %>
+  
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <%= yield %>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://checkout.stripe.com/v2/checkout.js"></script>
+  <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+  <%= javascript_include_tag "bootstrap" %>
+</body>
+</html>
